@@ -31,3 +31,4 @@ java -jar build/libs/app-1.0-SNAPSHOT-all.jar
 | Переменная | Описание | По умолчанию |
 | --- | --- | --- |
 | `PORT` | Порт HTTP-сервера | `7070` |
+| `JDBC_DATABASE_URL` | URL подключения к БД | H2 in-memory `jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;` |
