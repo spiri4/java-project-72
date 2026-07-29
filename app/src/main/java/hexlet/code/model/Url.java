@@ -1,8 +1,11 @@
 package hexlet.code.model;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 
 public class Url {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     private Long id;
     private String name;
     private Timestamp createdAt;
@@ -37,5 +40,11 @@ public class Url {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-}
 
+    public String getFormattedCreatedAt() {
+        if (createdAt == null) {
+            return "";
+        }
+        return createdAt.toLocalDateTime().format(DATE_FORMATTER);
+    }
+}
