@@ -12,7 +12,7 @@
         <tr>
           <th>ID</th>
           <th>Имя</th>
-          <th>Дата создания</th>
+          <th>Дата последней проверки</th>
           <th>Код ответа</th>
         </tr>
       </thead>
@@ -21,8 +21,8 @@
         <tr>
           <td>${url.getId()}</td>
           <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
-          <td>${url.getFormattedCreatedAt()}</td>
-          <td></td>
+          <td>${url.getFormattedLastCheckCreatedAt()}</td>
+          <td>${url.getFormattedLastCheckStatusCode()}</td>
         </tr>
         @endfor
       </tbody>

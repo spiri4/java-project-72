@@ -41,6 +41,16 @@
         </tr>
       </thead>
       <tbody>
+        @for(var check : page.getChecks())
+        <tr>
+          <td>${check.getId()}</td>
+          <td>${check.getStatusCode()}</td>
+          <td>${check.getTruncatedH1()}</td>
+          <td>${check.getTruncatedTitle()}</td>
+          <td>${check.getTruncatedDescription()}</td>
+          <td>${check.getFormattedCreatedAt()}</td>
+        </tr>
+        @endfor
       </tbody>
     </table>
     `
