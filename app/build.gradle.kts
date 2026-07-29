@@ -35,6 +35,7 @@ tasks.test {
 }
 
 tasks.shadowJar {
+    mergeServiceFiles()
     archiveBaseName.set("app")
     archiveClassifier.set("all")
     archiveVersion.set("1.0-SNAPSHOT")
