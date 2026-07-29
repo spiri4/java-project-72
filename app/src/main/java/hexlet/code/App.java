@@ -26,6 +26,10 @@ public class App {
     }
 
     private static String getDatabaseUrl() {
+        var fromProperty = System.getProperty("JDBC_DATABASE_URL");
+        if (fromProperty != null && !fromProperty.isBlank()) {
+            return fromProperty;
+        }
         return System.getenv().getOrDefault(
                 "JDBC_DATABASE_URL",
                 "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1;"

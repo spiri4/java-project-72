@@ -1,6 +1,7 @@
 plugins {
     application
     checkstyle
+    jacoco
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -27,11 +28,23 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.assertj:assertj-core:3.27.3")
+    testImplementation("io.javalin:javalin-testtools:6.6.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(true)
+    }
 }
 
 tasks.shadowJar {

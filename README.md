@@ -1,5 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/spiri4/java-project-72/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/spiri4/java-project-72/actions)
+[![Java CI](https://github.com/spiri4/java-project-72/actions/workflows/build.yml/badge.svg)](https://github.com/spiri4/java-project-72/actions/workflows/build.yml)
+[![Coverage](https://github.com/spiri4/java-project-72/raw/main/.github/badges/jacoco.svg)](https://github.com/spiri4/java-project-72/actions/workflows/build.yml)
 
 ## Page Analyzer
 
@@ -17,6 +19,15 @@ cd app
 ```
 
 Приложение будет доступно по адресу: http://localhost:7070
+
+### Тесты
+
+```bash
+cd app
+./gradlew test jacocoTestReport
+```
+
+Отчёт о покрытии: `app/build/reports/jacoco/test/html/index.html`
 
 ### Сборка исполняемого JAR
 
