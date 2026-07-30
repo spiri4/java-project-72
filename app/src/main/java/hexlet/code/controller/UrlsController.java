@@ -10,6 +10,7 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.UrlNormalizer;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
@@ -42,7 +43,7 @@ public class UrlsController {
             var page = new BasePage();
             page.setFlash("Некорректный URL");
             page.setFlashType("danger");
-            ctx.status(422);
+            ctx.status(HttpStatus.UNPROCESSABLE_CONTENT);
             ctx.render("index.jte", model("page", page));
             return;
         }
