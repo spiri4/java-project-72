@@ -7,15 +7,13 @@ import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
 import kong.unirest.Unirest;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 
+@Slf4j
 public class UrlCheckController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UrlCheckController.class);
-
     public static void create(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.find(id)
@@ -46,7 +44,7 @@ public class UrlCheckController {
             ctx.sessionAttribute("flash", "Страница успешно проверена");
             ctx.sessionAttribute("flashType", "success");
         } catch (Exception e) {
-            LOGGER.error("Failed to check url {}", url.getName(), e);
+            log.error("Failed to check url {}", url.getName(), e);
             ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
             ctx.sessionAttribute("flashType", "danger");
         }
