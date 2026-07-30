@@ -49,7 +49,11 @@ public class AppTest {
     }
 
     private String mockUrl() {
-        return UrlNormalizer.normalize(mockWebServer.url("/").toString());
+        try {
+            return UrlNormalizer.normalize(new java.net.URI(mockWebServer.url("/").toString()));
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Test

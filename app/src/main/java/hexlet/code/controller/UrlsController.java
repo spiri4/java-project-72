@@ -10,16 +10,13 @@ import hexlet.code.util.NamedRoutes;
 import hexlet.code.util.UrlNormalizer;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.sql.SQLException;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UrlsController.class);
-
     public static void index(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
         var page = new UrlsPage(urls);
@@ -30,15 +27,11 @@ public class UrlsController {
 
     public static void create(Context ctx) throws SQLException {
         var rawUrl = ctx.formParam("url");
-        String normalizedUrl;
-
+        URI parsedUrl;
         try {
-            if (rawUrl == null || rawUrl.isBlank()) {
-                throw new IllegalArgumentException("URL is empty");
-            }
-            normalizedUrl = UrlNormalizer.normalize(rawUrl);
-        } catch (IllegalArgumentException e) {
-            LOGGER.warn("Invalid URL: {}", rawUrl, e);
+            parsedUrl = new URI(rawUrl.trim());
+            parsedUrl.toURL();
+        } catch (Exception e) {
             var page = new BasePage();
             page.setFlash("Некорректный URL");
             page.setFlashType("danger");
@@ -46,6 +39,9 @@ public class UrlsController {
             ctx.render("index.jte", model("page", page));
             return;
         }
+
+        // Нормализуем URL: только протокол, хост и порт
+        var normalizedUrl = UrlNormalizer.normalize(parsedUrl);
 
         var existingUrl = UrlRepository.findByName(normalizedUrl);
         if (existingUrl.isPresent()) {

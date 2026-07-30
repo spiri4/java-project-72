@@ -6,21 +6,17 @@ public final class UrlNormalizer {
     private UrlNormalizer() {
     }
 
-    public static String normalize(String rawUrl) {
-        try {
-            var uri = new URI(rawUrl.trim());
-            var url = uri.toURL();
-            if (url.getHost() == null || url.getHost().isBlank()) {
-                throw new IllegalArgumentException("Host is empty");
-            }
-
-            var result = url.getProtocol() + "://" + url.getHost();
-            if (url.getPort() != -1) {
-                result += ":" + url.getPort();
-            }
-            return result;
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid URL", e);
+    public static String normalize(URI uri) {
+        var scheme = uri.getScheme();
+        var host = uri.getHost();
+        if (scheme == null || host == null || host.isBlank()) {
+            throw new IllegalArgumentException("Invalid URL");
         }
+
+        var result = scheme + "://" + host;
+        if (uri.getPort() != -1) {
+            result += ":" + uri.getPort();
+        }
+        return result;
     }
 }
