@@ -12,5 +12,6 @@ bin
 .classpath
 .idea/
 app/.idea/
+app/jte-classes/
 .factorypath
 kls_database.db
