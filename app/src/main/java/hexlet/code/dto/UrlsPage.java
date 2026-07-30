@@ -1,17 +1,15 @@
 package hexlet.code.dto;
 
-import hexlet.code.model.Url;
-
 import java.util.List;
 
 public class UrlsPage extends BasePage {
-    private List<Url> urls;
+    private List<UrlListItem> urls;
 
-    public UrlsPage(List<Url> urls) {
+    public UrlsPage(List<UrlListItem> urls) {
         this.urls = urls;
     }
 
-    public List<Url> getUrls() {
+    public List<UrlListItem> getUrls() {
         return urls;
     }
 }

@@ -1,6 +1,7 @@
 package hexlet.code.controller;
 
 import hexlet.code.dto.BasePage;
+import hexlet.code.dto.UrlListItem;
 import hexlet.code.dto.UrlPage;
 import hexlet.code.dto.UrlsPage;
 import hexlet.code.model.Url;
@@ -13,13 +14,19 @@ import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
     public static void index(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
-        var page = new UrlsPage(urls);
+        var items = new ArrayList<UrlListItem>();
+        for (var url : urls) {
+            var lastCheck = UrlCheckRepository.findLatestByUrlId(url.getId()).orElse(null);
+            items.add(new UrlListItem(url, lastCheck));
+        }
+        var page = new UrlsPage(items);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("urls/index.jte", model("page", page));

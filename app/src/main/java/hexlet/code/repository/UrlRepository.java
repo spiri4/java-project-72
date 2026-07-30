@@ -56,43 +56,13 @@ public class UrlRepository extends BaseRepository {
     }
 
     public static List<Url> getEntities() throws SQLException {
-        var sql = """
-                SELECT
-                    urls.id,
-                    urls.name,
-                    urls.created_at,
-                    (
-                        SELECT url_checks.created_at
-                        FROM url_checks
-                        WHERE url_checks.url_id = urls.id
-                        ORDER BY url_checks.id DESC
-                        LIMIT 1
-                    ) AS last_check_created_at,
-                    (
-                        SELECT url_checks.status_code
-                        FROM url_checks
-                        WHERE url_checks.url_id = urls.id
-                        ORDER BY url_checks.id DESC
-                        LIMIT 1
-                    ) AS last_check_status_code
-                FROM urls
-                ORDER BY urls.created_at DESC
-                """;
+        var sql = "SELECT * FROM urls ORDER BY created_at DESC";
         var result = new ArrayList<Url>();
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement();
              var resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
-                var url = buildUrl(resultSet);
-                var lastCheckCreatedAt = resultSet.getTimestamp("last_check_created_at");
-                if (!resultSet.wasNull()) {
-                    url.setLastCheckCreatedAt(lastCheckCreatedAt);
-                }
-                var lastCheckStatusCode = resultSet.getInt("last_check_status_code");
-                if (!resultSet.wasNull()) {
-                    url.setLastCheckStatusCode(lastCheckStatusCode);
-                }
-                result.add(url);
+                result.add(buildUrl(resultSet));
             }
         }
         return result;

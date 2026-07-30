@@ -17,12 +17,12 @@
         </tr>
       </thead>
       <tbody>
-        @for(var url : page.getUrls())
+        @for(var item : page.getUrls())
         <tr>
-          <td>${url.getId()}</td>
-          <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
-          <td>${url.getFormattedLastCheckCreatedAt()}</td>
-          <td>${url.getFormattedLastCheckStatusCode()}</td>
+          <td>${item.getUrl().getId()}</td>
+          <td><a href="${NamedRoutes.urlPath(item.getUrl().getId())}">${item.getUrl().getName()}</a></td>
+          <td>${item.getFormattedLastCheckCreatedAt()}</td>
+          <td>${item.getFormattedLastCheckStatusCode()}</td>
         </tr>
         @endfor
       </tbody>
