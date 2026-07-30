@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
 public class UrlCheck {
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final int MAX_TEXT_LENGTH = 200;
 
     private Long id;
@@ -86,7 +86,7 @@ public class UrlCheck {
         if (createdAt == null) {
             return "";
         }
-        return createdAt.toLocalDateTime().format(DATE_FORMATTER);
+        return createdAt.toLocalDateTime().format(DATE_TIME_FORMATTER);
     }
 
     public String getTruncatedTitle() {

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Url {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private Long id;
     private String name;
@@ -70,7 +71,7 @@ public class Url {
         if (lastCheckCreatedAt == null) {
             return "";
         }
-        return lastCheckCreatedAt.toLocalDateTime().format(DATE_FORMATTER);
+        return lastCheckCreatedAt.toLocalDateTime().format(DATE_TIME_FORMATTER);
     }
 
     public String getFormattedLastCheckStatusCode() {
