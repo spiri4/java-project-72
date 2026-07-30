@@ -5,6 +5,7 @@ import hexlet.code.model.Url;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +15,9 @@ public class UrlRepository extends BaseRepository {
         var sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (var connection = dataSource.getConnection();
              var statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            var createdAt = new Timestamp(System.currentTimeMillis());
+            var createdAt = LocalDateTime.now();
             statement.setString(1, url.getName());
-            statement.setTimestamp(2, createdAt);
+            statement.setTimestamp(2, Timestamp.valueOf(createdAt));
             statement.executeUpdate();
 
             var generatedKeys = statement.getGeneratedKeys();
@@ -71,7 +72,7 @@ public class UrlRepository extends BaseRepository {
     private static Url buildUrl(java.sql.ResultSet resultSet) throws SQLException {
         var url = new Url(resultSet.getString("name"));
         url.setId(resultSet.getLong("id"));
-        url.setCreatedAt(resultSet.getTimestamp("created_at"));
+        url.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
         return url;
     }
 }

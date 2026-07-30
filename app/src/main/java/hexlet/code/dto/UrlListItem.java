@@ -28,7 +28,7 @@ public class UrlListItem {
         if (lastCheck == null || lastCheck.getCreatedAt() == null) {
             return "";
         }
-        return lastCheck.getCreatedAt().toLocalDateTime().format(DATE_TIME_FORMATTER);
+        return lastCheck.getCreatedAt().format(DATE_TIME_FORMATTER);
     }
 
     public String getFormattedLastCheckStatusCode() {
