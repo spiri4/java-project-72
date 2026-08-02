@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class UrlCheckRepository extends BaseRepository {
@@ -59,6 +61,20 @@ public class UrlCheckRepository extends BaseRepository {
                 return Optional.of(buildUrlCheck(resultSet));
             }
             return Optional.empty();
+        }
+    }
+
+    public static Map<Long, UrlCheck> findLatestChecks() throws SQLException {
+        var sql = "SELECT DISTINCT ON (url_id) * FROM url_checks ORDER BY url_id DESC, id DESC";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            var resultSet = stmt.executeQuery();
+            var result = new HashMap<Long, UrlCheck>();
+            while (resultSet.next()) {
+                var urlCheck = buildUrlCheck(resultSet);
+                result.put(urlCheck.getUrlId(), urlCheck);
+            }
+            return result;
         }
     }
 

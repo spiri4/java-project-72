@@ -22,10 +22,10 @@ import static io.javalin.rendering.template.TemplateUtil.model;
 public class UrlsController {
     public static void index(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
+        var latestChecks = UrlCheckRepository.findLatestChecks();
         var items = new ArrayList<UrlListItem>();
         for (var url : urls) {
-            var lastCheck = UrlCheckRepository.findLatestByUrlId(url.getId()).orElse(null);
-            items.add(new UrlListItem(url, lastCheck));
+            items.add(new UrlListItem(url, latestChecks.get(url.getId())));
         }
         var page = new UrlsPage(items);
         page.setFlash(ctx.consumeSessionAttribute("flash"));

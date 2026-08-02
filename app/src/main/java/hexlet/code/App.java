@@ -51,6 +51,9 @@ public class App {
     }
 
     public static Javalin getApp() throws IOException, SQLException {
+        if (BaseRepository.dataSource != null) {
+            BaseRepository.dataSource.close();
+        }
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDatabaseUrl());
 
