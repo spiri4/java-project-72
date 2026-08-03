@@ -51,9 +51,6 @@ public class App {
     }
 
     public static Javalin getApp() throws IOException, SQLException {
-        if (BaseRepository.dataSource != null) {
-            BaseRepository.dataSource.close();
-        }
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(getDatabaseUrl());
 
@@ -81,6 +78,14 @@ public class App {
         app.post(NamedRoutes.urlsPath(), UrlsController::create);
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
         app.post(NamedRoutes.urlChecksPath("{id}"), UrlCheckController::create);
+
+        app.events(event -> {
+            event.serverStopping(() -> {
+                if (BaseRepository.dataSource != null) {
+                    BaseRepository.dataSource.close();
+                }
+            });
+        });
 
         return app;
     }

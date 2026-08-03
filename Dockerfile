@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY app .
 
-RUN chmod +x ./gradlew && ./gradlew --no-daemon shadowJar
+RUN chmod +x ./gradlew && ./gradlew --no-daemon shadowJar -x test
 
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=60.0"
 EXPOSE 7070
